@@ -1,6 +1,8 @@
+import math
+
 def bills(charge, payment):
-    charge = int(charge)
-    payment = int(payment)
+    charge = int(math.ceil(charge))
+    payment = int(math.floor(payment))
     bills_tuple = ()
     if payment >= charge:
         change = payment - charge
@@ -32,14 +34,37 @@ def bills(charge, payment):
         change -= 1 * singles
     return(bills_tuple)
     
+def coins(charge, payment):
+    coins_tuple = ()
+    bills_charge = int(charge)
+    bills_payment = int(payment)
+    coins_payment = payment - bills_payment + 1
+    coins_charge = charge - bills_charge
+    coins = int(abs(coins_charge - coins_payment) * 100)
+    if coins / 25 > 0:
+        quarters = (coins - (coins % 25))/25
+        coins_tuple = coins_tuple + (int(quarters),)
+        coins -= 25 * quarters
+    if coins / 10 > 0:
+        dimes = (coins - (coins % 10))/10
+        coins_tuple = coins_tuple + (int(dimes),)
+        coins -= 10 * dimes
+    if coins / 5 > 0:
+        nickles = (coins - (coins % 5))/5
+        coins_tuple = coins_tuple + (int(nickles),)
+        coins -= 5 * nickles
+    if coins / 1 > 0:
+        pennies = (coins - (coins % 1))
+        coins_tuple = coins_tuple + (int(pennies),)
+        coins -= 1 * pennies
+    return(coins_tuple)
 
-print(bills(350, 497))
+def change_calc(charge_amt, payment_amt):
+    charge = charge_amt
+    payment = payment_amt
+    return(bills(charge, payment), coins(charge, payment))
 
+print(change_calc(98.21, 100.99))
+# print(bills(98.01, 100.01), "bills func")
+# print(coins(98.21, 100), "coins func")
 
-# def change(charge, payment):
-
-# def make_change(total_charge, payment):
-
-# # test = (1, 2)
-# # test2 = test + (9,)
-# # print(test2)sv
